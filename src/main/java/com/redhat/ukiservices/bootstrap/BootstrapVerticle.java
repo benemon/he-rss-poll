@@ -1,6 +1,6 @@
 package com.redhat.ukiservices.bootstrap;
 
-import com.redhat.ukiservices.gateway.PollingVerticle;
+import com.redhat.ukiservices.poll.PollingVerticle;
 import com.redhat.ukiservices.process.ProcessVerticle;
 
 import io.vertx.core.AbstractVerticle;
