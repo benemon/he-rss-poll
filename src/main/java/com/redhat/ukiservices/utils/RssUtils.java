@@ -13,6 +13,8 @@ public class RssUtils {
 
 	private static final String CHANNEL = "channel";
 	private static final String ITEM = "item";
+	
+	private static final String GUID = "guid";
 	private static final String TITLE = "title";
 	private static final String PUBLISH_DATE = "pubDate";
 	private static final String ROAD = "road";
@@ -31,6 +33,7 @@ public class RssUtils {
 		for (Element el : list) {
 
 			JsonObject obj = new JsonObject();
+			obj.put(GUID, el.getChildText(GUID));
 			obj.put(TITLE, el.getChildText(TITLE));
 			obj.put(PUBLISH_DATE, el.getChildText(PUBLISH_DATE));
 			obj.put(ROAD, el.getChildText(ROAD));
