@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: vertx-pipeline
+  labels:
+    name: vertx-pipeline
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/benemon/vertx-polling-polls
+      ref: master
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: pipeline/Jenkinsfile 
+  output:
+  resources:
+  postCommit:
+status: {}

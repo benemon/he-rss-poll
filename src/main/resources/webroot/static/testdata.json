@@ -1,0 +1,387 @@
+[
+  {
+    "id": 3559,
+    "date": "2017-06-02",
+    "start_date": "2017-06-01",
+    "company": {
+      "name": "YouGov",
+      "code": "YG"
+    },
+    "client": "Sunday Times",
+    "type": {
+      "name": "Westminster Voting Intention",
+      "code": "WESTVI"
+    },
+    "headline": {
+      "CON": {
+        "pct": 42,
+        "party": {
+          "name": "Conservative",
+          "colour": "0087DC",
+          "code": "CON",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "CON",
+        "change": "="
+      },
+      "GRN": {
+        "pct": 2,
+        "party": {
+          "name": "Green Party",
+          "colour": "6AB023",
+          "code": "GRN",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "GRN",
+        "change": "="
+      },
+      "LAB": {
+        "pct": 38,
+        "party": {
+          "name": "Labour",
+          "colour": "DC241F",
+          "code": "LAB",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "LAB",
+        "change": "-1"
+      },
+      "LD": {
+        "pct": 9,
+        "party": {
+          "name": "Liberal Democrats",
+          "colour": "FDBB30",
+          "code": "LD",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "LD",
+        "change": "+2"
+      },
+      "UKIP": {
+        "pct": 4,
+        "party": {
+          "name": "UK Independence Party",
+          "colour": "70147A",
+          "code": "UKIP",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "UKIP",
+        "change": "="
+      }
+    },
+    "tables_url": "http://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/f3ruqo8k0q/SundayTimesResults_170602_VI_W.pdf"
+  },
+  {
+    "id": 3552,
+    "date": "2017-05-31",
+    "start_date": "2017-05-30",
+    "company": {
+      "name": "YouGov",
+      "code": "YG"
+    },
+    "client": "Times",
+    "type": {
+      "name": "Westminster Voting Intention",
+      "code": "WESTVI"
+    },
+    "headline": {
+      "CON": {
+        "pct": 42,
+        "party": {
+          "name": "Conservative",
+          "colour": "0087DC",
+          "code": "CON",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "CON",
+        "change": "-1"
+      },
+      "GRN": {
+        "pct": 2,
+        "party": {
+          "name": "Green Party",
+          "colour": "6AB023",
+          "code": "GRN",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "GRN",
+        "change": "="
+      },
+      "LAB": {
+        "pct": 39,
+        "party": {
+          "name": "Labour",
+          "colour": "DC241F",
+          "code": "LAB",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "LAB",
+        "change": "+3"
+      },
+      "LD": {
+        "pct": 7,
+        "party": {
+          "name": "Liberal Democrats",
+          "colour": "FDBB30",
+          "code": "LD",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "LD",
+        "change": "-2"
+      },
+      "UKIP": {
+        "pct": 4,
+        "party": {
+          "name": "UK Independence Party",
+          "colour": "70147A",
+          "code": "UKIP",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "UKIP",
+        "change": "="
+      }
+    },
+    "tables_url": "http://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/imdk9bjaff/TimesResults_170531_VI_Trackers_W.pdf"
+  },
+  {
+    "id": 3544,
+    "date": "2017-05-26",
+    "start_date": "2017-05-25",
+    "company": {
+      "name": "YouGov",
+      "code": "YG"
+    },
+    "client": "Times",
+    "type": {
+      "name": "Westminster Voting Intention",
+      "code": "WESTVI"
+    },
+    "headline": {
+      "CON": {
+        "pct": 43,
+        "party": {
+          "name": "Conservative",
+          "colour": "0087DC",
+          "code": "CON",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "CON",
+        "change": "="
+      },
+      "GRN": {
+        "pct": 2,
+        "party": {
+          "name": "Green Party",
+          "colour": "6AB023",
+          "code": "GRN",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "GRN",
+        "change": "+1"
+      },
+      "LAB": {
+        "pct": 36,
+        "party": {
+          "name": "Labour",
+          "colour": "DC241F",
+          "code": "LAB",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "LAB",
+        "change": "-2"
+      },
+      "LD": {
+        "pct": 9,
+        "party": {
+          "name": "Liberal Democrats",
+          "colour": "FDBB30",
+          "code": "LD",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "LD",
+        "change": "-1"
+      },
+      "UKIP": {
+        "pct": 4,
+        "party": {
+          "name": "UK Independence Party",
+          "colour": "70147A",
+          "code": "UKIP",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "UKIP",
+        "change": "="
+      }
+    },
+    "tables_url": "http://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/fpwbs2u7v8/SundayTimesResults_170526_VI_W.pdf"
+  },
+  {
+    "id": 3540,
+    "date": "2017-05-25",
+    "start_date": "2017-05-24",
+    "company": {
+      "name": "YouGov",
+      "code": "YG"
+    },
+    "client": "Times",
+    "type": {
+      "name": "Westminster Voting Intention",
+      "code": "WESTVI"
+    },
+    "headline": {
+      "CON": {
+        "pct": 43,
+        "party": {
+          "name": "Conservative",
+          "colour": "0087DC",
+          "code": "CON",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "CON",
+        "change": "-1"
+      },
+      "GRN": {
+        "pct": 1,
+        "party": {
+          "name": "Green Party",
+          "colour": "6AB023",
+          "code": "GRN",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "GRN",
+        "change": "-1"
+      },
+      "LAB": {
+        "pct": 38,
+        "party": {
+          "name": "Labour",
+          "colour": "DC241F",
+          "code": "LAB",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "LAB",
+        "change": "+3"
+      },
+      "LD": {
+        "pct": 10,
+        "party": {
+          "name": "Liberal Democrats",
+          "colour": "FDBB30",
+          "code": "LD",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "LD",
+        "change": "+1"
+      },
+      "UKIP": {
+        "pct": 4,
+        "party": {
+          "name": "UK Independence Party",
+          "colour": "70147A",
+          "code": "UKIP",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "UKIP",
+        "change": "+1"
+      }
+    },
+    "tables_url": "https://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/dcfgflapq2/TimesResults_170525_VI_Trackers_Terrorism_W.pdf"
+  },
+  {
+    "id": 3538,
+    "date": "2017-05-21",
+    "start_date": "2017-05-18",
+    "company": {
+      "name": "YouGov",
+      "code": "YG"
+    },
+    "client": "ITV/Cardiff Uni",
+    "type": {
+      "name": "Westminster (Wales)",
+      "code": "WALW"
+    },
+    "headline": {
+      "CON": {
+        "pct": 34,
+        "party": {
+          "name": "Conservative",
+          "colour": "0087DC",
+          "code": "CON",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "CON",
+        "change": "-7"
+      },
+      "LAB": {
+        "pct": 44,
+        "party": {
+          "name": "Labour",
+          "colour": "DC241F",
+          "code": "LAB",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "LAB",
+        "change": "+9"
+      },
+      "LD": {
+        "pct": 6,
+        "party": {
+          "name": "Liberal Democrats",
+          "colour": "FDBB30",
+          "code": "LD",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "LD",
+        "change": "-1"
+      },
+      "PC": {
+        "pct": 9,
+        "party": {
+          "name": "Plaid Cymru",
+          "colour": "FFFF80",
+          "code": "PC",
+          "textcolor": "191919"
+        },
+        "candidate": null,
+        "code": "PC",
+        "change": "-2"
+      },
+      "UKIP": {
+        "pct": 5,
+        "party": {
+          "name": "UK Independence Party",
+          "colour": "70147A",
+          "code": "UKIP",
+          "textcolor": "f3f3f3"
+        },
+        "candidate": null,
+        "code": "UKIP",
+        "change": "+1"
+      }
+    },
+    "tables_url": "http://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/awbysqsoe6/WelshBarometer_May21st_w.pdf"
+  }
+]
