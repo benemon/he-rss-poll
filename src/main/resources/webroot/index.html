@@ -43,23 +43,7 @@
 
 		<hr>
 
-		<form class="defaultForm">
-			<!-- 
-                <div class="form-group" align="left">
-                    <label for="company">Polling Organisation</label> 
-                    <br>
-                    <select id="company"></select> <br>
-                    <br> 
-                    <label for="sampleSize">Sample Size</label> 
-                    <input type="number" min="2" max="100" class="form-control" id="sampleSize"
-                        placeholder="5">
-                </div>
-                <br>
-                 -->
-			<button id="go" type="submit" class="btn btn-success">Go!</button>
-		</form>
-
-		<canvas id="pieChart"></canvas>
+		<canvas id="pieChart" width="600" height="600"></canvas>
 
 	</div>
 
@@ -67,18 +51,16 @@
         	// keep objects in global scope
         	var roadCountChart;
         	var colours = [];
-        	
 
         	function refreshVisualiser()
         	{
         		setInterval(function() {
             		runVisualiser();
-        		}, 60000);
+        		}, 120000);
             }
         	
             function runVisualiser()
             {
-            	
                 $.ajax(
                 {
                     url: '/api/get/count/road',
@@ -99,7 +81,7 @@
                     var tempData = {
                     	      labels : labels,
                     	      datasets : [{
-                        	      backgroundColor: "red",
+                        	      backgroundColor: colours,
                     	          data: data
                     	      }]
                     	    };
@@ -113,19 +95,31 @@
 					
 					roadCountChart = new Chart(ctx,
                     {
-                        type: "doughnut",
-                        data: tempData
+                        type: "polarArea",
+                        data: tempData,
+                        options: {
+                            legend: {
+                                labels: {
+                                    fontSize: 14
+                                     
+                                }
+                            }
+                        }
                     });
                 });
             }
 
             function generateColours()
             {
-					colours.push("red");
-					colours.push("yellow");
-					colours.push("green");
-					colours.push("blue");
-					colours.push("red");
+            	while (colours.length < 10) {
+            	    do {
+          	    	    var r = (Math.round(Math.random()* 127) + 127).toString(16);
+        	    	    var g = (Math.round(Math.random()* 127) + 127).toString(16);
+        	    	    var b = (Math.round(Math.random()* 127) + 127).toString(16);
+        	    	    var colour = '#' + r + g + b;
+            	    } while (colours.indexOf(colour) >= 0);
+            	    colours.push(colour);
+            	}
             }
 
             $(document).ready(function()

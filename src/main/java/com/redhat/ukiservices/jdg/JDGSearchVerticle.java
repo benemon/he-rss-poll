@@ -6,6 +6,7 @@ import org.infinispan.client.hotrod.Search;
 import org.infinispan.query.dsl.Expression;
 import org.infinispan.query.dsl.Query;
 import org.infinispan.query.dsl.QueryFactory;
+import org.infinispan.query.dsl.SortOrder;
 
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.model.HEElementModel;
@@ -39,12 +40,12 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 	private void searchCache(Message<JsonObject> message) {
 
 		JsonObject payload = message.body();
-		
+
 		String term = payload.getString("term");
 
 		QueryFactory qf = Search.getQueryFactory(remoteCache);
 		Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
-				.groupBy(term).build();
+				.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
 
 		List<Object[]> results = query.list();
 
@@ -56,7 +57,7 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 			object.put("count", result[1]);
 			array.add(object);
 		}
-		
+
 		message.reply(array);
 
 	}

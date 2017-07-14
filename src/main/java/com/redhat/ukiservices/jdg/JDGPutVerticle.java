@@ -32,7 +32,6 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 			HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
 
 			remoteCache.put(model.getGuid(), model);
-
 		}
 	}
 }

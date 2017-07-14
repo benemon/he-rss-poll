@@ -46,7 +46,7 @@ public class UserVerticle extends AbstractVerticle {
 				JsonArray ja = (JsonArray) ar.result().body();
 				rc.response().setStatusCode(200).end(ja.encodePrettily());
 			} else {
-				rc.response().setStatusCode(500);
+				rc.response().setStatusCode(500).end();
 			}
 		});
 	}
