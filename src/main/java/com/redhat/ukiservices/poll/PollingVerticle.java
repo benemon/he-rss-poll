@@ -145,7 +145,7 @@ public class PollingVerticle extends AbstractVerticle {
 
 			Document doc = sax.build(new InputSource(new StringReader(xmlFeed)));
 			List<JsonObject> entries = RssUtils.toJson(doc);
-			vertx.eventBus().publish((CommonConstants.VERTX_EVENT_BUS_HE_RSS_PROCESS), new JsonArray(entries));
+			vertx.eventBus().publish((CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_PUT), new JsonArray(entries));
 			future.complete();
 
 		} catch (JDOMException | IOException e) {
