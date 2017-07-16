@@ -1,138 +1,117 @@
 <html>
 
 <head>
-<meta charset="utf-8">
-<title>Highways England Road Safety Visualiser</title>
+    <meta charset="utf-8">
+    <title>Highways England Road Safety Visualiser</title>
 
-<!-- styles -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-</link>
+    <!-- styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </link>
 
-<style type="text/css">
-.defaultForm {
-	width: 50%;
-	clear: both;
-}
+    <style type="text/css">
+        .chart {
+            width: 60%;
+            height: 60%;
+        }
+    </style>
 
-.defaultForm input {
-	width: 75px;
-	clear: both;
-}
-</style>
-
-<!-- script imports -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <!-- script imports -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 </head>
 
 <body>
-	<div class="container">
+    <div class="container">
 
-		<div>
-			<h1>Highways England Road Safety Visualiser</h1>
-		</div>
+        <div>
+            <h1>Highways England Road Safety Visualiser</h1>
+        </div>
 
-		<hr>
+        <hr>
+        <div class="chart">
+            <canvas id="pieChart"></canvas>
+        </div>
 
-		<canvas id="pieChart" width="600" height="600"></canvas>
+    </div>
 
-	</div>
+    <script>
+        // keep objects in global scope
+        var roadCountChart;
+        var colours = [];
 
-	<script>
-        	// keep objects in global scope
-        	var roadCountChart;
-        	var colours = [];
+        function refreshVisualiser() {
+            setInterval(function() {
+                runVisualiser();
+            }, 120000);
+        }
 
-        	function refreshVisualiser()
-        	{
-        		setInterval(function() {
-            		runVisualiser();
-        		}, 120000);
-            }
-        	
-            function runVisualiser()
-            {
-                $.ajax(
-                {
-                    url: '/api/get/count/road',
-                    dataType: 'json',
-                }).done(function(json)
-                {
-					console.log(json);
-					
-                    var data = [], labels = [];
-                    
+        function runVisualiser() {
+            $.ajax({
+                url: '/api/get/count/road',
+                dataType: 'json',
+            }).done(function(json) {
+                console.log(json);
 
-                    json.forEach((entry) =>
-                    {
-                        labels.push(entry.road);
-                        data.push(entry.count);
-                    });
+                var data = [],
+                    labels = [];
 
-                    var tempData = {
-                    	      labels : labels,
-                    	      datasets : [{
-                        	      backgroundColor: colours,
-                    	          data: data
-                    	      }]
-                    	    };
 
-                    var ctx = document.getElementById("pieChart").getContext("2d");
+                json.forEach((entry) => {
+                    labels.push(entry.road);
+                    data.push(entry.count);
+                });
 
-					if (roadCountChart != null)
-					{
-						roadCountChart.destroy();
-					}
-					
-					roadCountChart = new Chart(ctx,
-                    {
-                        type: "polarArea",
-                        data: tempData,
-                        options: {
-                            legend: {
-                                labels: {
-                                    fontSize: 14
-                                     
-                                }
+                var tempData = {
+                    labels: labels,
+                    datasets: [{
+                        backgroundColor: colours,
+                        data: data
+                    }]
+                };
+
+                var ctx = document.getElementById("pieChart").getContext("2d");
+
+                if (roadCountChart != null) {
+                    roadCountChart.destroy();
+                }
+
+                roadCountChart = new Chart(ctx, {
+                    type: "polarArea",
+                    data: tempData,
+                    options: {
+                        legend: {
+                            labels: {
+                                fontSize: 14
+
                             }
                         }
-                    });
+                    }
                 });
-            }
-
-            function generateColours()
-            {
-            	while (colours.length < 10) {
-            	    do {
-          	    	    var r = (Math.round(Math.random()* 127) + 127).toString(16);
-        	    	    var g = (Math.round(Math.random()* 127) + 127).toString(16);
-        	    	    var b = (Math.round(Math.random()* 127) + 127).toString(16);
-        	    	    var colour = '#' + r + g + b;
-            	    } while (colours.indexOf(colour) >= 0);
-            	    colours.push(colour);
-            	}
-            }
-
-            $(document).ready(function()
-            {
-            	
-            	generateColours();
-                runVisualiser();
-                refreshVisualiser();
-
-
             });
+        }
 
-        </script>
+        function generateColours() {
+            while (colours.length < 10) {
+                do {
+                    var r = (Math.round(Math.random() * 127) + 127).toString(16);
+                    var g = (Math.round(Math.random() * 127) + 127).toString(16);
+                    var b = (Math.round(Math.random() * 127) + 127).toString(16);
+                    var colour = '#' + r + g + b;
+                } while (colours.indexOf(colour) >= 0);
+                colours.push(colour);
+            }
+        }
+
+        $(document).ready(function() {
+
+            generateColours();
+            runVisualiser();
+            refreshVisualiser();
+
+
+        });
+    </script>
 </body>
 
 </html>
