@@ -3,6 +3,8 @@ package com.redhat.ukiservices.jdg;
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.model.HEElementModel;
 
+import io.vertx.core.Context;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -13,6 +15,11 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 
 	private static final Logger log = LoggerFactory.getLogger("JDGPutVerticle");
 
+	@Override
+	public void init(Vertx vertx, Context context) {
+		super.init(vertx, context);
+	}
+	
 	@Override
 	public void start() throws Exception {
 		super.start();

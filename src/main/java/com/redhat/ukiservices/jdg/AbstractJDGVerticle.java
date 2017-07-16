@@ -23,7 +23,7 @@ public class AbstractJDGVerticle extends AbstractVerticle {
 
 		DataGridClientFactory dgClientFactory = new DataGridClientFactory("localhost:11222");
 
-		remoteCache = dgClientFactory.getCache("rep-he");
+		remoteCache = dgClientFactory.getCache("default");
 
 		gson = new GsonBuilder().setDateFormat("EEE, d MMM yyyy HH:mm:ss z").create();
 	}
