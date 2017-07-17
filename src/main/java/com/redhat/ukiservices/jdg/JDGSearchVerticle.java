@@ -29,36 +29,37 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 		MessageConsumer<JsonObject> ebConsumer = vertx.eventBus()
 				.consumer(CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_SEARCH);
 
-		ebConsumer.handler(message -> {
-
-			this.searchCache(message);
-
-		});
+		ebConsumer.handler(this::handleSearch);
 
 	}
 
-	private void searchCache(Message<JsonObject> message) {
+	private void handleSearch(Message<JsonObject> message) {
 
 		JsonObject payload = message.body();
 
+		String action = payload.getString(CommonConstants.JDG_SEARCH_ACTION_KEY);
+
 		String term = payload.getString("term");
 
-		QueryFactory qf = Search.getQueryFactory(remoteCache);
-		Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
-				.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
+		JsonArray resultsArray = new JsonArray();
 
-		List<Object[]> results = query.list();
+		if (action.equalsIgnoreCase(CommonConstants.JDG_SEARCH_ACTION_COUNT)) {
+			QueryFactory qf = Search.getQueryFactory(remoteCache);
+			Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
+					.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
 
-		JsonArray array = new JsonArray();
+			List<Object[]> results = query.list();
 
-		for (Object[] result : results) {
-			JsonObject object = new JsonObject();
-			object.put("road", result[0]);
-			object.put("count", result[1]);
-			array.add(object);
+			for (Object[] result : results) {
+				JsonObject object = new JsonObject();
+				object.put("road", result[0]);
+				object.put("count", result[1]);
+				resultsArray.add(object);
+			}
+
 		}
 
-		message.reply(array);
+		message.reply(resultsArray);
 
 	}
 }

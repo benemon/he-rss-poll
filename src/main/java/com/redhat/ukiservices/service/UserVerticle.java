@@ -37,9 +37,10 @@ public class UserVerticle extends AbstractVerticle {
 
 	private void getIncidentCountsForType(RoutingContext rc) {
 
-		String term = rc.request().getParam("term");
+		String term = rc.request().getParam(CommonConstants.JDG_SEARCH_TERM_KEY);
 		JsonObject payload = new JsonObject();
-		payload.put("term", term);
+		payload.put(CommonConstants.JDG_SEARCH_TERM_KEY, term);
+		payload.put(CommonConstants.JDG_SEARCH_ACTION_KEY, CommonConstants.JDG_SEARCH_ACTION_COUNT);
 
 		vertx.eventBus().send(CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_SEARCH, payload, ar -> {
 			if (ar.succeeded()) {

@@ -15,5 +15,10 @@ public interface CommonConstants {
 	public static final String VERTX_EVENT_BUS_HE_RSS_JDG_PUT = "he.rss.jdg.put";
 	public static final String VERTX_EVENT_BUS_HE_RSS_JDG_SEARCH = "he.rss.process.jdg.search";
 	public static final String VERTX_EVENT_BUS_HE_RSS_JDG_GET = "he.rss.process.jdg.get";
+	
+	public static final String JDG_SEARCH_TERM_KEY = "term";
+	public static final String JDG_SEARCH_ACTION_KEY = "action";
+	public static final String JDG_SEARCH_ACTION_COUNT = "count";
+	
 
 }
