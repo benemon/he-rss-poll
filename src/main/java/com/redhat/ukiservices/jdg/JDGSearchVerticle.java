@@ -24,7 +24,7 @@ import io.vertx.core.logging.LoggerFactory;
 public class JDGSearchVerticle extends AbstractJDGVerticle {
 
 	private static final Logger log = LoggerFactory.getLogger(JDGSearchVerticle.class);
-	private static final String SEARCH_MSG = "Search for %s:%s with %d results completed in %d milliseconds";
+	private static final String SEARCH_MSG_FORMAT = "SEARCH operation completed in %d milliseconds";
 
 	private String cacheName;
 
@@ -53,33 +53,43 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 	}
 
 	private void handleSearch(Message<JsonObject> message) {
-
-		JsonObject payload = message.body();
-
-		String action = payload.getString(CommonConstants.JDG_SEARCH_ACTION_KEY);
-
-		String term = payload.getString(CommonConstants.JDG_SEARCH_TERM_KEY);
-
-		JsonArray resultsArray = new JsonArray();
 		long start = System.currentTimeMillis();
-		if (action.equalsIgnoreCase(CommonConstants.JDG_SEARCH_ACTION_COUNT)) {
-			QueryFactory qf = Search.getQueryFactory(cache);
-			Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
-					.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
+		
+		vertx.executeBlocking(future -> {
+			JsonObject payload = message.body();
 
-			List<Object[]> results = query.list();
+			String action = payload.getString(CommonConstants.JDG_SEARCH_ACTION_KEY);
 
-			for (Object[] result : results) {
-				JsonObject object = new JsonObject();
-				object.put(term, result[0]);
-				object.put(action, result[1]);
-				resultsArray.add(object);
+			String term = payload.getString(CommonConstants.JDG_SEARCH_TERM_KEY);
+
+			JsonArray resultsArray = new JsonArray();
+			
+			if (action.equalsIgnoreCase(CommonConstants.JDG_SEARCH_ACTION_COUNT)) {
+				QueryFactory qf = Search.getQueryFactory(cache);
+				Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
+						.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
+
+				List<Object[]> results = query.list();
+
+				for (Object[] result : results) {
+					JsonObject object = new JsonObject();
+					object.put(term, result[0]);
+					object.put(action, result[1]);
+					resultsArray.add(object);
+				}
+
 			}
+			
+			
 
-		}
-		long stop = System.currentTimeMillis();
-		log.info(String.format(SEARCH_MSG, term, action, resultsArray.size(), (stop - start)));
-		message.reply(resultsArray);
+			future.complete(resultsArray);
+		}, res -> {
+			long stop = System.currentTimeMillis();
+			
+			log.info(String.format(SEARCH_MSG_FORMAT, (stop - start)));
+			
+			message.reply(res.result());
+		});
 
 	}
 }

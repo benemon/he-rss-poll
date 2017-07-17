@@ -19,6 +19,9 @@ import io.vertx.core.logging.LoggerFactory;
 public class JDGPutVerticle extends AbstractJDGVerticle {
 
 	private static final Logger log = LoggerFactory.getLogger(JDGPutVerticle.class);
+
+	private static final String PUT_MSG_FORMAT = "PUT operation completed in %d milliseconds";
+
 	private Gson gson;
 	private String cacheName;
 	private RemoteCache<String, HEElementModel> cache;
@@ -44,13 +47,22 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 
 	private void processEntries(Message<JsonArray> message) {
 
-		JsonArray entries = message.body();
+		long start = System.currentTimeMillis();
+		vertx.executeBlocking(future -> {
 
-		for (Object obj : entries.getList()) {
-			JsonObject jobj = (JsonObject) obj;
-			HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
+			JsonArray entries = message.body();
 
-			cache.put(model.getGuid(), model);
-		}
+			for (Object obj : entries.getList()) {
+				JsonObject jobj = (JsonObject) obj;
+				HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
+
+				cache.put(model.getGuid(), model);
+			}
+
+			future.complete();
+		}, res -> {
+			long stop = System.currentTimeMillis();
+			log.info(String.format(PUT_MSG_FORMAT, stop - start));
+		});
 	}
 }

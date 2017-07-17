@@ -2,7 +2,6 @@ package com.redhat.ukiservices.jdg.factory;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
-import org.infinispan.client.hotrod.configuration.ClientIntelligence;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.client.hotrod.configuration.NearCacheMode;
 import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
@@ -16,32 +15,42 @@ import com.redhat.ukiservices.jdg.model.HEElementModel;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-public class DataGridClientFactory {
+public enum DataGridClientFactory {
+
+	INSTANCE;
 
 	private static final Logger log = LoggerFactory.getLogger(DataGridClientFactory.class);
 
 	private RemoteCacheManager cacheManager;
 
-	public DataGridClientFactory(String serviceNames) {
-		ConfigurationBuilder builder = new ConfigurationBuilder();
-		builder.addServers(serviceNames);
-		builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(500);
-		builder.marshaller(new ProtoStreamMarshaller());
-		cacheManager = new RemoteCacheManager(builder.build());
+	private DataGridClientFactory() {
+		// Default constructor
+	}
 
-		registerProtoBufSchema();
+	/**
+	 * returns a direct reference to the cache manager.
+	 * 
+	 * @return
+	 */
+	public RemoteCacheManager getCacheManager() {
+
+		return cacheManager;
 	}
 
 	public <T extends Object> RemoteCache<String, T> getCache(String cacheName) {
 		return cacheManager.getCache(cacheName);
 	}
 
-	/**
-	 * returns a direct reference to the cache manager.
-	 * @return
-	 */
-	public RemoteCacheManager getCacheManager() {
-		return cacheManager;
+	public void init(String serviceNames) {
+		if (cacheManager == null) {
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.addServers(serviceNames);
+			builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(500);
+			builder.marshaller(new ProtoStreamMarshaller());
+			cacheManager = new RemoteCacheManager(builder.build());
+
+			registerProtoBufSchema();
+		}
 	}
 
 	private void registerProtoBufSchema() {

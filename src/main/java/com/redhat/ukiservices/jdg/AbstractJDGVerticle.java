@@ -14,8 +14,6 @@ public class AbstractJDGVerticle extends AbstractVerticle {
 
 	private static final String JDG_CONNECTION_STRING_FORMAT = "%s:%s";
 
-	protected DataGridClientFactory dgClientFactory;
-
 	@Override
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
@@ -25,15 +23,15 @@ public class AbstractJDGVerticle extends AbstractVerticle {
 		String port = System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) != null
 				? System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) : CommonConstants.JDG_SERVICE_PORT_DEFAULT;
 
-		dgClientFactory = new DataGridClientFactory(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
+		DataGridClientFactory.INSTANCE.init(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
 	}
 
 	protected <T extends Object> RemoteCache<String, T> getCache(String cacheName) {
-		return dgClientFactory.getCache(cacheName);
+		return DataGridClientFactory.INSTANCE.getCache(cacheName);
 	}
 
 	protected RemoteCacheManager getCacheManager() {
-		return dgClientFactory.getCacheManager();
+		return DataGridClientFactory.INSTANCE.getCacheManager();
 	}
 
 }
