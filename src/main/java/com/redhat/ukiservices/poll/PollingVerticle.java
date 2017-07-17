@@ -5,9 +5,7 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.jdom2.Document;
@@ -26,7 +24,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpClientResponse;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.JsonArray;
@@ -36,7 +33,7 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class PollingVerticle extends AbstractVerticle {
 
-	private static final Logger log = LoggerFactory.getLogger("PollingVerticle");
+	private static final Logger log = LoggerFactory.getLogger(PollingVerticle.class);
 
 	private Long timerId;
 	private Long pollPeriod;

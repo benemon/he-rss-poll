@@ -1,11 +1,14 @@
 package com.redhat.ukiservices.service;
 
 import com.redhat.ukiservices.common.CommonConstants;
+import com.redhat.ukiservices.jdg.JDGSearchVerticle;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.ext.web.Router;
@@ -14,6 +17,8 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 public class UserVerticle extends AbstractVerticle {
 
+	private static final Logger log = LoggerFactory.getLogger(UserVerticle.class);
+	
 	private boolean online;
 
 	@Override
@@ -36,7 +41,6 @@ public class UserVerticle extends AbstractVerticle {
 	}
 
 	private void getIncidentCountsForType(RoutingContext rc) {
-
 		String term = rc.request().getParam(CommonConstants.JDG_SEARCH_TERM_KEY);
 		JsonObject payload = new JsonObject();
 		payload.put(CommonConstants.JDG_SEARCH_TERM_KEY, term);

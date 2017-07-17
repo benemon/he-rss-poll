@@ -35,6 +35,14 @@ public class DataGridClientFactory {
 		return cacheManager.getCache(cacheName);
 	}
 
+	/**
+	 * returns a direct reference to the cache manager.
+	 * @return
+	 */
+	public RemoteCacheManager getCacheManager() {
+		return cacheManager;
+	}
+
 	private void registerProtoBufSchema() {
 		SerializationContext serCtx = ProtoStreamMarshaller.getSerializationContext(cacheManager);
 

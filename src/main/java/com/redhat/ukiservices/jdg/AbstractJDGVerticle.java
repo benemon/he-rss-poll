@@ -1,11 +1,10 @@
 package com.redhat.ukiservices.jdg;
 
 import org.infinispan.client.hotrod.RemoteCache;
+import org.infinispan.client.hotrod.RemoteCacheManager;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.factory.DataGridClientFactory;
-import com.redhat.ukiservices.jdg.model.HEElementModel;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
@@ -13,19 +12,28 @@ import io.vertx.core.Vertx;
 
 public class AbstractJDGVerticle extends AbstractVerticle {
 
-	protected RemoteCache<String, HEElementModel> remoteCache;
+	private static final String JDG_CONNECTION_STRING_FORMAT = "%s:%s";
 
-	protected Gson gson;
+	protected DataGridClientFactory dgClientFactory;
 
 	@Override
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
 
-		DataGridClientFactory dgClientFactory = new DataGridClientFactory("localhost:11222");
+		String host = System.getenv(CommonConstants.JDG_SERVICE_HOST_ENV) != null
+				? System.getenv(CommonConstants.JDG_SERVICE_HOST_ENV) : CommonConstants.JDG_SERVICE_HOST_DEFAULT;
+		String port = System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) != null
+				? System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) : CommonConstants.JDG_SERVICE_PORT_DEFAULT;
 
-		remoteCache = dgClientFactory.getCache("default");
+		dgClientFactory = new DataGridClientFactory(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
+	}
 
-		gson = new GsonBuilder().setDateFormat("EEE, d MMM yyyy HH:mm:ss z").create();
+	protected <T extends Object> RemoteCache<String, T> getCache(String cacheName) {
+		return dgClientFactory.getCache(cacheName);
+	}
+
+	protected RemoteCacheManager getCacheManager() {
+		return dgClientFactory.getCacheManager();
 	}
 
 }

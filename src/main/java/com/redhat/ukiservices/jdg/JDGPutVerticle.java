@@ -1,5 +1,9 @@
 package com.redhat.ukiservices.jdg;
 
+import org.infinispan.client.hotrod.RemoteCache;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.model.HEElementModel;
 
@@ -14,11 +18,19 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class JDGPutVerticle extends AbstractJDGVerticle {
 
-	private static final Logger log = LoggerFactory.getLogger("JDGPutVerticle");
+	private static final Logger log = LoggerFactory.getLogger(JDGPutVerticle.class);
+	private Gson gson;
+	private String cacheName;
+	private RemoteCache<String, HEElementModel> cache;
 
 	@Override
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
+		gson = new GsonBuilder().setDateFormat("EEE, d MMM yyyy HH:mm:ss z").create();
+		cacheName = System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) != null
+				? System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) : CommonConstants.HE_JDG_VERTX_CACHE_DEFAULT;
+
+		cache = getCache(cacheName);
 	}
 
 	@Override
@@ -38,7 +50,7 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 			JsonObject jobj = (JsonObject) obj;
 			HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
 
-			remoteCache.put(model.getGuid(), model);
+			cache.put(model.getGuid(), model);
 		}
 	}
 }

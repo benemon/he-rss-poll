@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.openshift</groupId>
 		<artifactId>booster-parent</artifactId>
-		<version>4</version>
+		<version>6</version>
 	</parent>
 
 	<groupId>com.redhat.ukiservices.bh</groupId>
@@ -18,11 +18,14 @@
 	<description>Demonstrates the use of Vert.x in a polling model, rather than a stream</description>
 
 	<properties>
-		<vertx.version>3.4.1</vertx.version>
+		<vertx.version>3.4.2</vertx.version>
 		<vertx-maven-plugin.version>1.0.8</vertx-maven-plugin.version>
-		<vertx.verticle>com.redhat.ukiservices.bootstrap.BootstrapVerticle</vertx.verticle>
-
+		<log4j2.version>2.6.2</log4j2.version>
 		<infinispan.version>8.4.0.Final-redhat-2</infinispan.version>
+
+		<vertx.verticle>com.redhat.ukiservices.bootstrap.BootstrapVerticle</vertx.verticle>
+		<vertx.logger-delegate-factory-class-name>io.vertx.core.logging.Log4j2LogDelegateFactory</vertx.logger-delegate-factory-class-name>
+
 	</properties>
 
 	<dependencyManagement>
@@ -68,10 +71,25 @@
 			<version>1.7.0</version>
 		</dependency>
 
+		<!-- infinispan -->
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-remote</artifactId>
 		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+
 
 		<!-- gson -->
 		<dependency>
