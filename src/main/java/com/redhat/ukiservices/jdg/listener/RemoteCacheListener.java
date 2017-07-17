@@ -4,11 +4,13 @@ import org.infinispan.client.hotrod.annotation.ClientCacheEntryCreated;
 import org.infinispan.client.hotrod.annotation.ClientCacheEntryExpired;
 import org.infinispan.client.hotrod.annotation.ClientCacheEntryModified;
 import org.infinispan.client.hotrod.annotation.ClientCacheEntryRemoved;
+import org.infinispan.client.hotrod.annotation.ClientCacheFailover;
 import org.infinispan.client.hotrod.annotation.ClientListener;
 import org.infinispan.client.hotrod.event.ClientCacheEntryCreatedEvent;
 import org.infinispan.client.hotrod.event.ClientCacheEntryExpiredEvent;
 import org.infinispan.client.hotrod.event.ClientCacheEntryModifiedEvent;
 import org.infinispan.client.hotrod.event.ClientCacheEntryRemovedEvent;
+import org.infinispan.client.hotrod.event.ClientCacheFailoverEvent;
 
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -38,5 +40,10 @@ public class RemoteCacheListener {
 	@ClientCacheEntryModified
 	public void entryModified(ClientCacheEntryModifiedEvent<String> event) {
 		log.info(String.format(EVENT_MSG_FORMAT, "Modified", event.getKey()));
+	}
+	
+	@ClientCacheFailover
+	public void failover(ClientCacheFailoverEvent event) {
+		log.warn(String.format(EVENT_MSG_FORMAT, "Failover event occurred"));
 	}
 }

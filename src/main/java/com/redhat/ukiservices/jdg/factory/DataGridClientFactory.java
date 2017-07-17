@@ -2,6 +2,7 @@ package com.redhat.ukiservices.jdg.factory;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.configuration.ClientIntelligence;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.client.hotrod.configuration.NearCacheMode;
 import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
@@ -21,9 +22,9 @@ public class DataGridClientFactory {
 
 	private RemoteCacheManager cacheManager;
 
-	public DataGridClientFactory(String serviceName) {
+	public DataGridClientFactory(String serviceNames) {
 		ConfigurationBuilder builder = new ConfigurationBuilder();
-		builder.addServers(serviceName);
+		builder.addServers(serviceNames);
 		builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(500);
 		builder.marshaller(new ProtoStreamMarshaller());
 		cacheManager = new RemoteCacheManager(builder.build());
