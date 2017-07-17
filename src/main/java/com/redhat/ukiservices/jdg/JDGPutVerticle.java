@@ -5,6 +5,7 @@ import com.redhat.ukiservices.jdg.model.HEElementModel;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -19,20 +20,19 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
 	}
-	
+
 	@Override
 	public void start() throws Exception {
 		super.start();
 
 		MessageConsumer<JsonArray> ebConsumer = vertx.eventBus()
 				.consumer(CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_PUT);
-		ebConsumer.handler(payload -> {
-
-			processEntries(payload.body());
-		});
+		ebConsumer.handler(this::processEntries);
 	}
 
-	private void processEntries(JsonArray entries) {
+	private void processEntries(Message<JsonArray> message) {
+
+		JsonArray entries = message.body();
 
 		for (Object obj : entries.getList()) {
 			JsonObject jobj = (JsonObject) obj;
