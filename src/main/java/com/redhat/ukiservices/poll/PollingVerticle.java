@@ -98,7 +98,7 @@ public class PollingVerticle extends AbstractVerticle {
 		Future<Void> future = Future.future();
 		long start = System.currentTimeMillis();
 
-		log.info("Reading RSS Feed: " + feedUrl);
+		log.info("Verticle " + this.deploymentID() + " - Reading RSS Feed: " + feedUrl);
 
 		URL url;
 
