@@ -28,8 +28,6 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 
 	private String cacheName;
 
-	private RemoteCache<String, HEElementModel> cache;
-
 	@Override
 	public void init(Vertx vertx, Context context) {
 
@@ -37,8 +35,6 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 
 		cacheName = System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) != null
 				? System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) : CommonConstants.HE_JDG_VERTX_CACHE_DEFAULT;
-
-		cache = getCache(cacheName);
 	}
 
 	@Override
@@ -54,7 +50,7 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 
 	private void handleSearch(Message<JsonObject> message) {
 		long start = System.currentTimeMillis();
-		
+
 		vertx.executeBlocking(future -> {
 			JsonObject payload = message.body();
 
@@ -63,9 +59,9 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 			String term = payload.getString(CommonConstants.JDG_SEARCH_TERM_KEY);
 
 			JsonArray resultsArray = new JsonArray();
-			
+
 			if (action.equalsIgnoreCase(CommonConstants.JDG_SEARCH_ACTION_COUNT)) {
-				QueryFactory qf = Search.getQueryFactory(cache);
+				QueryFactory qf = Search.getQueryFactory(getCache(cacheName));
 				Query query = qf.from(HEElementModel.class).select(Expression.property(term), Expression.count(term))
 						.groupBy(term).orderBy(Expression.count(term), SortOrder.DESC).maxResults(10).build();
 
@@ -79,15 +75,13 @@ public class JDGSearchVerticle extends AbstractJDGVerticle {
 				}
 
 			}
-			
-			
 
 			future.complete(resultsArray);
 		}, res -> {
 			long stop = System.currentTimeMillis();
-			
+
 			log.info(String.format(SEARCH_MSG_FORMAT, (stop - start)));
-			
+
 			message.reply(res.result());
 		});
 
