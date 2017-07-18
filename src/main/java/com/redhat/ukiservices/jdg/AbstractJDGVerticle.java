@@ -19,7 +19,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-public class AbstractJDGVerticle extends AbstractVerticle {
+public abstract class AbstractJDGVerticle extends AbstractVerticle {
 
 	private static final Logger log = LoggerFactory.getLogger(AbstractJDGVerticle.class);
 
