@@ -58,13 +58,20 @@ public class BootstrapVerticle extends AbstractVerticle {
 
 		});
 
+		/**
+		 * Split execution of polling onto separate verticles to permit scaling of the solution.
+		 */
 		String heRssUrls = System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) != null
 				? System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) : CommonConstants.HE_RSS_URL_DEFAULT;
 
 		List<String> urls = Arrays.asList(heRssUrls.split(","));
 		for (String url : urls) {
 			JsonObject j = new JsonObject();
+			long pollPeriod = Long.parseLong(System.getenv(CommonConstants.POLL_PERIOD_ENV) != null
+					? System.getenv(CommonConstants.POLL_PERIOD_ENV) : CommonConstants.POLL_PERIOD_DEFAULT);
+
 			j.put(CommonConstants.HE_RSS_URL, url);
+			j.put(CommonConstants.HE_RSS_URL_POLL_PERIOD, pollPeriod);
 
 			vertx.deployVerticle(PollingVerticle.class.getName(), new DeploymentOptions().setConfig(j), res -> {
 				if (res.failed()) {

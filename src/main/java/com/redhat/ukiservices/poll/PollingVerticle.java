@@ -46,9 +46,6 @@ public class PollingVerticle extends AbstractVerticle {
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
 
-		pollPeriod = Long.parseLong(System.getenv(CommonConstants.POLL_PERIOD_ENV) != null
-				? System.getenv(CommonConstants.POLL_PERIOD_ENV) : CommonConstants.POLL_PERIOD_DEFAULT);
-
 		httpClient = vertx.createHttpClient();
 
 	}
@@ -59,6 +56,7 @@ public class PollingVerticle extends AbstractVerticle {
 
 		JsonObject config = config();
 		heRssUrl = config.getString(CommonConstants.HE_RSS_URL);
+		pollPeriod = config.getLong(CommonConstants.HE_RSS_URL_POLL_PERIOD);
 
 		parseRssTarget();
 

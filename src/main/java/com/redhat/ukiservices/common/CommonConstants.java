@@ -8,6 +8,8 @@ public interface CommonConstants {
 
 	public static final String HE_RSS_URL_LIST_ENV = "HE_RSS_URL_LIST";
 	public static final String HE_RSS_URL = "HE_RSS_URL";
+	public static final String HE_RSS_URL_POLL_PERIOD = "HE_RSS_POLL_PERIOD";
+	
 	public static final String HE_RSS_URL_DEFAULT = "http://m.highways.gov.uk/feeds/rss/UnplannedEvents.xml";
 
 	public static final String POLL_PERIOD_ENV = "HE_RSS_POLL_PERIOD";
