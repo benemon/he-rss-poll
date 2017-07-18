@@ -1,5 +1,9 @@
 package com.redhat.ukiservices.bootstrap;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.JDGEventVerticle;
 import com.redhat.ukiservices.jdg.JDGPutVerticle;
 import com.redhat.ukiservices.jdg.JDGSearchVerticle;
@@ -8,6 +12,7 @@ import com.redhat.ukiservices.service.UserVerticle;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
@@ -53,12 +58,22 @@ public class BootstrapVerticle extends AbstractVerticle {
 
 		});
 
-		vertx.deployVerticle(PollingVerticle.class.getName(), res -> {
-			if (res.failed()) {
-				log.error("Initialisation failed", res.cause());
-			}
+		String heRssUrls = System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) != null
+				? System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) : CommonConstants.HE_RSS_URL_DEFAULT;
 
-		});
+		List<String> urls = Arrays.asList(heRssUrls.split(","));
+		for (String url : urls) {
+			JsonObject j = new JsonObject();
+			j.put(CommonConstants.HE_RSS_URL, url);
+
+			vertx.deployVerticle(PollingVerticle.class.getName(), new DeploymentOptions().setConfig(j), res -> {
+				if (res.failed()) {
+					log.error("Initialisation failed", res.cause());
+				}
+
+			});
+		}
+
 	}
 
 }

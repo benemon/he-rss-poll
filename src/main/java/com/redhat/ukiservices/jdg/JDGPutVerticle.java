@@ -24,7 +24,6 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 
 	private Gson gson;
 	private String cacheName;
-	private RemoteCache<String, HEElementModel> cache;
 
 	@Override
 	public void init(Vertx vertx, Context context) {
@@ -32,8 +31,6 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 		gson = new GsonBuilder().setDateFormat("EEE, d MMM yyyy HH:mm:ss z").create();
 		cacheName = System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) != null
 				? System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) : CommonConstants.HE_JDG_VERTX_CACHE_DEFAULT;
-
-		cache = getCache(cacheName);
 	}
 
 	@Override
@@ -56,7 +53,7 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
 				JsonObject jobj = (JsonObject) obj;
 				HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
 
-				cache.put(model.getGuid(), model);
+				this.getCache(cacheName).put(model.getGuid(), model);
 			}
 
 			future.complete();

@@ -69,7 +69,7 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 
 		}
 
-		log.info(generatedSchema);
+		log.debug(generatedSchema);
 	}
 
 	protected <T extends Object> RemoteCache<String, T> getCache(String cacheName) {

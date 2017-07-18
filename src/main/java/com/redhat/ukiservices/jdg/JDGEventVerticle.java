@@ -25,17 +25,18 @@ public class JDGEventVerticle extends AbstractJDGVerticle {
 		cacheName = System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) != null
 				? System.getenv(CommonConstants.HE_JDG_VERTX_CACHE_ENV) : CommonConstants.HE_JDG_VERTX_CACHE_DEFAULT;
 
-		cache = getCache(cacheName);
 	}
 
 	@Override
 	public void start() throws Exception {
 		super.start();
 
+		cache = getCache(cacheName);
+
 		listener = new RemoteCacheListener();
-		
+
 		cache.addClientListener(listener);
-		
+
 		log.info("Registered client listener on cache " + cacheName);
 	}
 

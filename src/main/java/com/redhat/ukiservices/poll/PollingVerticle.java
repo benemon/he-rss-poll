@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,16 +38,13 @@ public class PollingVerticle extends AbstractVerticle {
 	private Long timerId;
 	private Long pollPeriod;
 
-	private String heRssUrls;
-
 	private HttpClient httpClient;
+
+	private String heRssUrl;
 
 	@Override
 	public void init(Vertx vertx, Context context) {
 		super.init(vertx, context);
-
-		heRssUrls = System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) != null
-				? System.getenv(CommonConstants.HE_RSS_URL_LIST_ENV) : CommonConstants.HE_RSS_URL_DEFAULT;
 
 		pollPeriod = Long.parseLong(System.getenv(CommonConstants.POLL_PERIOD_ENV) != null
 				? System.getenv(CommonConstants.POLL_PERIOD_ENV) : CommonConstants.POLL_PERIOD_DEFAULT);
@@ -60,10 +57,12 @@ public class PollingVerticle extends AbstractVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 
-		parseRssTargets();
+		JsonObject config = config();
+		heRssUrl = config.getString(CommonConstants.HE_RSS_URL);
+
+		parseRssTarget();
 
 		future.complete();
-
 	}
 
 	@Override
@@ -79,8 +78,10 @@ public class PollingVerticle extends AbstractVerticle {
 		future.complete();
 	}
 
-	private void parseRssTargets() {
-		List<String> urls = Arrays.asList(heRssUrls.split(","));
+	private void parseRssTarget() {
+
+		List<String> urls = new ArrayList<>();
+		urls.add(heRssUrl);
 
 		readRssFeedDetails(urls);
 
@@ -89,7 +90,7 @@ public class PollingVerticle extends AbstractVerticle {
 	private void readRssFeedDetails(List<String> urls) {
 
 		CompositeFuture.all(urls.stream().map(this::readFeed).collect(Collectors.toList()))
-				.setHandler(fetchResult -> timerId = vertx.setTimer(pollPeriod, timerIdentifier -> parseRssTargets()));
+				.setHandler(fetchResult -> timerId = vertx.setTimer(pollPeriod, timerIdentifier -> parseRssTarget()));
 
 	}
 
