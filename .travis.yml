@@ -8,7 +8,7 @@ cache:
   directories:
   - $HOME/.m2
 
-script: mvn clean package
+script: mvn clean package -s configuration/settings.xml
 
 jdk:
 - oraclejdk8
