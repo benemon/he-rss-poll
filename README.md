@@ -10,10 +10,20 @@ To make it poll multiple sources for the information, set the environment variab
 
 
 ### Configuration
-None yet.
+* Install JDG 7.1 / Infinispan 8.4.x
+
+* Remove REST endpoint from `standalone.xml`
+
 
 ### TBD
-* Poll individual regions to demonstrate scalability
-* Store events in JBoss Data Grid
-* Create REST API to access data stored in JDG
-* Create UI to return results from REST API.
+  * Improve UI.
+
+  * Allow user to select which sources are polled dynamically
+  
+~~* Poll individual regions to demonstrate scalability~~
+
+~~* Store events in JBoss Data Grid~~
+
+~~* Create REST API to access data stored in JDG~~
+
+~~* Create UI to return results from REST API.~~
