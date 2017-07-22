@@ -33,120 +33,116 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class PollingVerticle extends AbstractVerticle {
 
-	private static final Logger log = LoggerFactory.getLogger(PollingVerticle.class);
+    private static final Logger log = LoggerFactory.getLogger(PollingVerticle.class);
 
-	private Long timerId;
-	private Long pollPeriod;
+    private Long timerId;
+    private Long pollPeriod;
 
-	private HttpClient httpClient;
+    private HttpClient httpClient;
 
-	private String heRssUrl;
+    private String heRssUrl;
 
-	@Override
-	public void init(Vertx vertx, Context context) {
-		super.init(vertx, context);
+    @Override
+    public void init(Vertx vertx, Context context) {
+        super.init(vertx, context);
 
-		httpClient = vertx.createHttpClient();
+        httpClient = vertx.createHttpClient();
 
-	}
+    }
 
-	@Override
-	public void start(Future<Void> future) throws Exception {
-		super.start();
+    @Override
+    public void start(Future<Void> future) throws Exception {
+        super.start();
 
-		JsonObject config = config();
-		heRssUrl = config.getString(CommonConstants.HE_RSS_URL);
-		pollPeriod = config.getLong(CommonConstants.HE_RSS_URL_POLL_PERIOD);
+        JsonObject config = config();
+        heRssUrl = config.getString(CommonConstants.HE_RSS_URL);
+        pollPeriod = config.getLong(CommonConstants.HE_RSS_URL_POLL_PERIOD);
 
-		parseRssTarget();
+        bootstrapRssFeed();
 
-		future.complete();
-	}
+        future.complete();
+    }
 
-	@Override
-	public void stop(Future<Void> future) {
-		if (timerId != null) {
-			vertx.cancelTimer(timerId);
-		}
+    public void bootstrapRssFeed() {
 
-		if (httpClient != null) {
-			httpClient.close();
-		}
+        // Do initial read...
+        readFeed(heRssUrl);
 
-		future.complete();
-	}
 
-	private void parseRssTarget() {
+        //...then set up periodic poll
+        vertx.setPeriodic(pollPeriod, handler -> {
+            readFeed(heRssUrl);
+        });
+    }
 
-		List<String> urls = new ArrayList<>();
-		urls.add(heRssUrl);
+    @Override
+    public void stop(Future<Void> future) {
+        if (timerId != null) {
+            vertx.cancelTimer(timerId);
+        }
 
-		readRssFeedDetails(urls);
+        if (httpClient != null) {
+            httpClient.close();
+        }
 
-	}
+        future.complete();
+    }
 
-	private void readRssFeedDetails(List<String> urls) {
+    private Future<Void> readFeed(String feedUrl) {
+        Future<Void> future = Future.future();
+        long start = System.currentTimeMillis();
 
-		CompositeFuture.all(urls.stream().map(this::readFeed).collect(Collectors.toList()))
-				.setHandler(fetchResult -> timerId = vertx.setTimer(pollPeriod, timerIdentifier -> parseRssTarget()));
+        log.info("Verticle " + this.deploymentID() + " - Reading RSS Feed: " + feedUrl);
 
-	}
+        URL url;
 
-	private Future<Void> readFeed(String feedUrl) {
-		Future<Void> future = Future.future();
-		long start = System.currentTimeMillis();
+        try {
+            url = new URL(feedUrl);
+        } catch (MalformedURLException mfe) {
+            log.warn("Invalid url : " + feedUrl, mfe);
+            return Future.failedFuture(mfe);
+        }
 
-		log.info("Verticle " + this.deploymentID() + " - Reading RSS Feed: " + feedUrl);
+        this.getXml(url, response -> {
+            int status = response.statusCode();
+            if (status < 200 || status >= 300) {
+                if (future != null) {
+                    future.fail(new RuntimeException(
+                            "Could not read feed " + feedUrl + ". Response status code : " + status));
+                }
+                return;
+            }
+            response.bodyHandler(buffer -> this.parseXml(buffer, future));
+        });
 
-		URL url;
+        long stop = System.currentTimeMillis();
 
-		try {
-			url = new URL(feedUrl);
-		} catch (MalformedURLException mfe) {
-			log.warn("Invalid url : " + feedUrl, mfe);
-			return Future.failedFuture(mfe);
-		}
+        log.info("Read completed in " + (stop - start) + "ms");
 
-		this.getXml(url, response -> {
-			int status = response.statusCode();
-			if (status < 200 || status >= 300) {
-				if (future != null) {
-					future.fail(new RuntimeException(
-							"Could not read feed " + feedUrl + ". Response status code : " + status));
-				}
-				return;
-			}
-			response.bodyHandler(buffer -> this.parseXml(buffer, future));
-		});
+        return future;
+    }
 
-		long stop = System.currentTimeMillis();
+    private void getXml(URL url, Handler<HttpClientResponse> responseHandler) {
 
-		log.info("Read completed in " + (stop - start) + "ms");
+        httpClient.get(url.getHost(), url.getPath(), responseHandler).putHeader(HttpHeaders.ACCEPT, "application/xml")
+                .end();
+    }
 
-		return future;
-	}
+    private void parseXml(Buffer buffer, Future<Void> future) {
+        String xmlFeed = buffer.toString("UTF-8");
 
-	private void getXml(URL url, Handler<HttpClientResponse> responseHandler) {
+        final SAXBuilder sax = new SAXBuilder();
 
-		httpClient.get(url.getHost(), url.getPath(), responseHandler).putHeader(HttpHeaders.ACCEPT, "application/xml")
-				.end();
-	}
+        try {
 
-	private void parseXml(Buffer buffer, Future<Void> future) {
-		String xmlFeed = buffer.toString("UTF-8");
+            Document doc = sax.build(new InputSource(new StringReader(xmlFeed)));
+            List<JsonObject> entries = RssUtils.toJson(doc);
+            vertx.eventBus().publish((CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_PUT), new JsonArray(entries));
+            future.complete();
 
-		final SAXBuilder sax = new SAXBuilder();
-
-		try {
-
-			Document doc = sax.build(new InputSource(new StringReader(xmlFeed)));
-			List<JsonObject> entries = RssUtils.toJson(doc);
-			vertx.eventBus().publish((CommonConstants.VERTX_EVENT_BUS_HE_RSS_JDG_PUT), new JsonArray(entries));
-			future.complete();
-
-		} catch (JDOMException | IOException e) {
-			future.fail(new RuntimeException("Exception caught when building SAX Document", e));
-		}
-	}
+        } catch (JDOMException | IOException e) {
+            future.fail(new RuntimeException("Exception caught when building SAX Document", e));
+        }
+    }
 
 }
