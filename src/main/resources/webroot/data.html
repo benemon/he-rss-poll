@@ -267,6 +267,24 @@
             });
         }
 
+        function setCardActivityState(){
+            $.ajax({
+                url: 'api/config/endpoint/all',
+                dataType: 'json',
+            }).done(function(json) {
+
+                json.forEach(function(entry) {
+                    var isActive = entry.active
+                    var elementId = entry.label.replace(/\s+/g, '-').toLowerCase();
+                    if (!isActive)
+                    {
+                        document.getElementById(elementId + '-count').textContent = 'Inactive';
+                        document.getElementById(elementId + '-icon').className = 'pficon pficon-locked';
+                    }
+                });
+            });
+        }
+
 
         function populateCards() {
             $.ajax({
@@ -274,6 +292,7 @@
                 dataType: 'json',
             }).done(function(json) {
 
+                 <!-- Reset to zero -->
                  resetStatus();
 
                  Object.keys(json).map((key) =>
@@ -296,6 +315,10 @@
                         document.getElementById(elementId + '-icon').className = 'pficon pficon-error-circle-o';
                     }
                  });
+
+
+                 <!-- I don't care if we got a response, if the Verticle isn't deployed, set to zero. -->
+                 setCardActivityState()
 
 
             });

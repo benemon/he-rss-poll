@@ -72,8 +72,13 @@
         </h1>
     </div>
     <div class="container-fluid">
-        <p>Use this page to select which regional endpoints get polled for Highways England data displayed in the Live
+        <p>Use this page to select which regional endpoints get polled by Verticles for Highways England data. The
+            responses are displayed in the Live
             Data tab. </p>
+        <p>
+            Please note that once a Verticle is undeployed, data retrieved by that Verticle will still be available in
+            JBoss Data Grid until it naturally expires.
+        </p>
         <div class="form-vertical">
             <form>
                 <div class="checkbox">
@@ -100,6 +105,7 @@
                                     });
 
                                 });
+
                             </script>
                         </div>
                     </label>
@@ -117,6 +123,7 @@
             console.log("success");
         });
     });
+
 </script>
 </body>
 
