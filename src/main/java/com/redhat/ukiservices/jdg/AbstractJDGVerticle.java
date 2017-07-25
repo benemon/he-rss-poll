@@ -10,8 +10,8 @@ import org.infinispan.protostream.annotations.ProtoSchemaBuilder;
 import org.infinispan.query.remote.client.ProtobufMetadataManagerConstants;
 
 import com.redhat.ukiservices.common.CommonConstants;
-import com.redhat.ukiservices.jdg.model.HEElementCategoryModel;
-import com.redhat.ukiservices.jdg.model.HEElementModel;
+import com.redhat.ukiservices.jdg.model.element.HEElementCategoryModel;
+import com.redhat.ukiservices.jdg.model.element.HEElementModel;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;

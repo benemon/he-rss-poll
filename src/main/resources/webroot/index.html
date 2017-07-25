@@ -2,116 +2,78 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Highways England Road Safety Visualiser</title>
+    <title>Highways England Data Visualiser</title>
 
     <!-- styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="icon"
+          type="image/x-icon"
+          href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     </link>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
 
     <style type="text/css">
         .chart {
             width: 60%;
             height: 60%;
         }
+
     </style>
 
     <!-- script imports -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css"></script>
 </head>
 
 <body>
-    <div class="container">
-
-        <div>
-            <h1>Highways England Road Safety Visualiser</h1>
-        </div>
-
-        <hr>
-        <div class="chart">
-            <canvas id="pieChart"></canvas>
-        </div>
-
+<nav class="navbar navbar-default navbar-pf" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+            <img src="/assets/img/header.svg" alt="Red Hat UKI Services" />
+        </a>
     </div>
+    <div class="collapse navbar-collapse navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-utility">
+            <li class="dropdown">
+                <a class="nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span title="Help" class="fa pficon-help"></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">About</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-primary">
+            <li class="active">
+                <a href="#">Info</a>
+            </li>
+            <li>
+                <a href="configuration.html">Configuration</a>
+            </li>
+            <li>
+                <a href="data.html">Live Data</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+<h1>Highways England Data Visualiser</h1>
+<h2>by Red Hat UKI Services</h2>
 
-    <script>
-        // keep objects in global scope
-        var roadCountChart;
-        var colours = [];
-
-        function refreshVisualiser() {
-            setInterval(function() {
-                runVisualiser();
-            }, 120000);
-        }
-
-        function runVisualiser() {
-            $.ajax({
-                url: '/api/get/count/road',
-                dataType: 'json',
-            }).done(function(json) {
-                console.log(json);
-
-                var data = [],
-                    labels = [];
-
-
-                json.forEach((entry) => {
-                    labels.push(entry.road);
-                    data.push(entry.count);
-                });
-
-                var tempData = {
-                    labels: labels,
-                    datasets: [{
-                        backgroundColor: colours,
-                        data: data
-                    }]
-                };
-
-                var ctx = document.getElementById("pieChart").getContext("2d");
-
-                if (roadCountChart != null) {
-                    roadCountChart.destroy();
-                }
-
-                roadCountChart = new Chart(ctx, {
-                    type: "polarArea",
-                    data: tempData,
-                    options: {
-                        legend: {
-                            labels: {
-                                fontSize: 14
-
-                            }
-                        }
-                    }
-                });
-            });
-        }
-
-        function generateColours() {
-            while (colours.length < 10) {
-                do {
-                    var r = (Math.round(Math.random() * 127) + 127).toString(16);
-                    var g = (Math.round(Math.random() * 127) + 127).toString(16);
-                    var b = (Math.round(Math.random() * 127) + 127).toString(16);
-                    var colour = '#' + r + g + b;
-                } while (colours.indexOf(colour) >= 0);
-                colours.push(colour);
-            }
-        }
-
-        $(document).ready(function() {
-
-            generateColours();
-            runVisualiser();
-            refreshVisualiser();
-
-
-        });
-    </script>
+</div>
 </body>
 
 </html>

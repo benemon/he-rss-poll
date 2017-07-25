@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Highways England Road Safety Visualiser</title>
+
+    <!-- styles -->
+    <link rel="icon"
+          type="image/x-icon"
+          href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </link>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
+
+    <!-- script imports -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/js/patternfly.min.js"></script>
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-pf" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+            <img src="/assets/img/header.svg" alt="Red Hat UKI Services"/>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-utility">
+            <li class="dropdown">
+                <a class="nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="true">
+                    <span title="Help" class="fa pficon-help"></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">About</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-primary">
+            <li>
+                <a href="index.html">Info</a>
+            </li>
+            <li class="active">
+                <a href="configuration.html">Configuration</a>
+            </li>
+            <li>
+                <a href="data.html">Live Data</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Verticle Configuration
+        </h1>
+    </div>
+    <div class="container-fluid">
+        <p>Use this page to select which regional endpoints get polled for Highways England data displayed in the Live
+            Data tab. </p>
+        <div class="form-vertical">
+            <form>
+                <div class="checkbox">
+                    <label for="config-checkboxes">
+                        <div id="config-checkboxes">
+                            <script>
+                                $.ajax({
+                                    url: '/api/config/endpoint/all',
+                                    dataType: 'json',
+                                }).done(function(json) {
+                                    json.forEach(function(entry){
+                                        var checkbox = document.createElement("input");
+                                        var text = entry.label;
+                                        checkbox.type = "checkbox";
+                                        checkbox.name = entry.label;
+                                        checkbox.value = entry.url;
+                                        checkbox.id = entry.label.replace(/\s+/g, '-').toLowerCase();
+                                        checkbox.checked = entry.active;
+
+                                        var parent = document.getElementById("config-checkboxes");
+                                        parent.appendChild(checkbox);
+                                        parent.appendChild(document.createTextNode(text));
+                                        parent.appendChild(document.createElement("br"));
+                                    });
+
+                                });
+                            </script>
+                        </div>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('click', 'input[type=checkbox]', function(event) {
+        $.post({
+            url: '/api/config/endpoint/' + this.name + '/' + this.checked,
+            dataType: 'json',
+        }).done(function(json) {
+            console.log("success");
+        });
+    });
+</script>
+</body>
+
+</html>

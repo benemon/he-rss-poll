@@ -1,10 +1,10 @@
-package com.redhat.ukiservices.jdg.model;
+package com.redhat.ukiservices.jdg.model.element;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import io.vertx.core.json.JsonObject;
 import org.infinispan.protostream.annotations.ProtoDoc;
 import org.infinispan.protostream.annotations.ProtoField;
 import org.infinispan.protostream.annotations.ProtoMessage;
@@ -76,7 +76,7 @@ public class HEElementModel implements Serializable {
 	}
 
 	/**
-	 * @param publishDate
+	 * @param pubDate
 	 *            the publishDate to set
 	 */
 	public void setPubDate(Date pubDate) {
@@ -140,8 +140,8 @@ public class HEElementModel implements Serializable {
 	}
 
 	/**
-	 * @param catergories
-	 *            the catergories to set
+	 * @param categories
+	 *            the categories to set
 	 */
 	public void setCategories(ArrayList<HEElementCategoryModel> categories) {
 		this.categories = categories;
@@ -279,12 +279,27 @@ public class HEElementModel implements Serializable {
 		builder.append(getRegion());
 		builder.append(", getCounty()=");
 		builder.append(getCounty());
-		builder.append(", getCatergories()=");
+		builder.append(", getCategories()=");
 		builder.append(getCategories());
 		builder.append(", getDescription()=");
 		builder.append(getDescription());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public JsonObject toJson() {
+		JsonObject obj = new JsonObject();
+		obj.put("guid", getGuid());
+		obj.put("title", getTitle());
+		obj.put("publishDate", getPubDate());
+		obj.put("road", getRoad());
+		obj.put("region", getRegion());
+		obj.put("county", getCounty());
+		obj.put("categories", getCategories());
+		obj.put("description", getDescription());
+
+		return obj;
+
 	}
 
 }

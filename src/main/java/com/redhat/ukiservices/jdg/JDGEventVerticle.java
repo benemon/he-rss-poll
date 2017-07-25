@@ -4,7 +4,7 @@ import org.infinispan.client.hotrod.RemoteCache;
 
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.listener.RemoteCacheListener;
-import com.redhat.ukiservices.jdg.model.HEElementModel;
+import com.redhat.ukiservices.jdg.model.element.HEElementModel;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;

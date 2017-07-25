@@ -1,11 +1,9 @@
 package com.redhat.ukiservices.jdg;
 
-import org.infinispan.client.hotrod.RemoteCache;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.redhat.ukiservices.common.CommonConstants;
-import com.redhat.ukiservices.jdg.model.HEElementModel;
+import com.redhat.ukiservices.jdg.model.element.HEElementModel;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;

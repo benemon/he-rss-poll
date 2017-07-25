@@ -1,4 +1,4 @@
-package com.redhat.ukiservices.jdg.model;
+package com.redhat.ukiservices.jdg.model.element;
 
 import java.io.Serializable;
 
