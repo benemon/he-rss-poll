@@ -12,9 +12,12 @@ This is a small project which will by default poll the [Highways England RSS fee
 
 * Set the following options for your default cache implementation. It doesn't matter if it's local, replicated, or distributed:
 ~~~
-<local-cache name="default">
-  <expiration lifespan="600000" max-idle="300000" />
-</local-cache>
+ <local-cache name="default">
+    <indexing index="ALL">
+		    <property name="default.directory_provider">ram</property>
+		</indexing>
+	  <expiration lifespan="600000" max-idle="300000" />
+ </local-cache>
 ~~~
 
 
