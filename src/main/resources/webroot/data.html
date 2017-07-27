@@ -234,7 +234,9 @@
 
 
 <script>
+        <!-- vars in global scope -->
         var c3ChartDefaults = $().c3ChartDefaults();
+        var pieChartRightLegend;
 
         function refreshCards() {
             setInterval(function() {
@@ -333,7 +335,7 @@
 
               var data = [];
 
-              json.forEach(function(entry) {
+             json.forEach(function(entry) {
                 var column = [];
                 column.push(entry.road);
                 column.push(entry.count);
@@ -345,6 +347,7 @@
                 colors: c3ChartDefaults.getDefaultColors(),
                 columns: data,
                 onclick: function (d, e) { getDetailForId(d.id); },
+                empty: { label: { text: "No Data Found" }   },
               };
 
               // Right Legend
@@ -359,8 +362,9 @@
                 width: 430,
                 height: 370
               };
-              var pieChartRightLegend = c3.generate(pieChartRightConfig);
-            });
+              pieChartRightLegend = c3.generate(pieChartRightConfig);
+
+           });
 
         }
 

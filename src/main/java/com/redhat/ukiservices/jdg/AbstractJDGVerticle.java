@@ -38,7 +38,7 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.addServers(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
-		builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(500);
+		builder.nearCache().mode(NearCacheMode.DISABLED).maxEntries(500);
 		builder.marshaller(new ProtoStreamMarshaller());
 
 		cacheManager = new RemoteCacheManager(builder.build());
