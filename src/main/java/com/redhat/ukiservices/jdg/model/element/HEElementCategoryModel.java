@@ -6,7 +6,6 @@ import org.infinispan.protostream.annotations.ProtoDoc;
 import org.infinispan.protostream.annotations.ProtoField;
 import org.infinispan.protostream.annotations.ProtoMessage;
 
-@ProtoDoc("@Indexed")
 @ProtoMessage(name = "HEElementCategoryModel")
 public class HEElementCategoryModel implements Serializable {
 

@@ -38,7 +38,7 @@ public class HEElementModel implements Serializable {
 	/**
 	 * @return the guid
 	 */
-	@ProtoDoc("@IndexedField(index = true, store = true)")
+	@ProtoDoc("@Field(store = Store.YES, analyze = Analyze.YES)")
 	@ProtoField(number = 1, required = true)
 	public String getGuid() {
 		return guid;
@@ -55,7 +55,7 @@ public class HEElementModel implements Serializable {
 	/**
 	 * @return the title
 	 */
-	@ProtoDoc("@IndexedField")
+	@ProtoDoc("@Field(store = Store.YES, analyze = Analyze.YES)")
 	@ProtoField(number = 2, required = true)
 	public String getTitle() {
 		return title;
@@ -88,7 +88,7 @@ public class HEElementModel implements Serializable {
 	/**
 	 * @return the road
 	 */
-	@ProtoDoc("@IndexedField")
+	@ProtoDoc("@Field(store = Store.YES)")
 	@ProtoField(number = 4, required = true)
 	public String getRoad() {
 		return road;
@@ -105,7 +105,7 @@ public class HEElementModel implements Serializable {
 	/**
 	 * @return the region
 	 */
-	@ProtoDoc("@IndexedField")
+	@ProtoDoc("@Field(store = Store.YES)")
 	@ProtoField(number = 5, required = true)
 	public String getRegion() {
 		return region;
