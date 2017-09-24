@@ -20,8 +20,8 @@ public interface CommonConstants {
 	public static final String VERTX_EVENT_BUS_HE_RSS_JDG_GET = "he.rss.process.jdg.get";
 	public static final String VERTX_EVENT_BUS_MGMT_ACTION = "he.rss.mgmt.action";
 
-	public static final String JDG_SERVICE_HOST_ENV = "DATAGRID_HOTROD_SERVICE_HOST";
-	public static final String JDG_SERVICE_PORT_ENV = "DATAGRID_HOTROD_SERVICE_PORT";
+	public static final String JDG_SERVICE_HOST_ENV = "DATAGRID_APP_HOTROD_SERVICE_HOST";
+	public static final String JDG_SERVICE_PORT_ENV = "DATAGRID_APP_HOTROD_SERVICE_PORT";
 	public static final String JDG_SERVICE_HOST_DEFAULT = "localhost";
 	public static final String JDG_SERVICE_PORT_DEFAULT = "11222";
 
