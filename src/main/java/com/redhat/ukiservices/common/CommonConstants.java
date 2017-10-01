@@ -28,7 +28,8 @@ public interface CommonConstants {
 	public static final String JDG_SERVICE_PASSWORD_ENV = "JDG_SERVICE_PASSWORD";
 	public static final String JDG_SERVICE_USER_NAME_DEFAULT = "admin";
 	public static final String JDG_SERVICE_PASSWORD_DEFAULT = "admin";
-
+	public static final String JDG_SERVICE_SERVER_NAME_ENV = "JDG_SERVICE_SERVER_NAME";
+	public static final String JDG_SERVICE_SERVER_NAME_DEFAULT = "jdg-server";
 
 
 	public static final String HE_JDG_VERTX_CACHE_ENV = "HE_JDG_VERTX_CACHE";
