@@ -3,6 +3,7 @@ package com.redhat.ukiservices.jdg;
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.model.element.HEElementCategoryModel;
 import com.redhat.ukiservices.jdg.model.element.HEElementModel;
+import com.redhat.ukiservices.jdg.security.LoginHandler;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -47,7 +48,11 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
         builder.addServers(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
         builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(25);
         builder.marshaller(new ProtoStreamMarshaller());
-        builder.security().authentication().serverName(jdgServerName).saslMechanism(JDG_SASL_MECHANISM).realm(JDG_REALM).username(username).password(password).enable();
+        builder.security().authentication()
+                .serverName(jdgServerName)
+                .saslMechanism(JDG_SASL_MECHANISM)
+                .callbackHandler(new LoginHandler(username, password.toCharArray(), JDG_REALM))
+                .enable();
 
 
         cacheManager = new RemoteCacheManager(builder.build());
