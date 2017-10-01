@@ -256,7 +256,16 @@
                         </binary-keyed-table>
                     </binary-keyed-jdbc-store>
                 </distributed-cache-configuration>
-                <distributed-cache name="default" mode="SYNC"></distributed-cache>
+                <security>
+                    <authorization>
+                        <role name="cacheUser" permissions="ALL ADMIN"/>
+                    </authorization>
+                </security>
+                <distributed-cache name="default" mode="SYNC">
+                    <security>
+                        <authorization enabled="true" roles="cacheUser"/>
+                    </security>
+                </distributed-cache>
                 <distributed-cache name="memcached" mode="SYNC"></distributed-cache><!-- ##INFINISPAN_CACHE## -->
             </cache-container>
         </subsystem>
