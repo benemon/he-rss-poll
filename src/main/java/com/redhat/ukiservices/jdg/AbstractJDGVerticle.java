@@ -35,11 +35,18 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 				? System.getenv(CommonConstants.JDG_SERVICE_HOST_ENV) : CommonConstants.JDG_SERVICE_HOST_DEFAULT;
 		String port = System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) != null
 				? System.getenv(CommonConstants.JDG_SERVICE_PORT_ENV) : CommonConstants.JDG_SERVICE_PORT_DEFAULT;
+		String username =  System.getenv(CommonConstants.JDG_SERVICE_USER_NAME_ENV) != null
+                ? System.getenv(CommonConstants.JDG_SERVICE_USER_NAME_ENV) : CommonConstants.JDG_SERVICE_USER_NAME_DEFAULT;
+		String password =  System.getenv(CommonConstants.JDG_SERVICE_PASSWORD_ENV) != null
+                ? System.getenv(CommonConstants.JDG_SERVICE_PASSWORD_ENV) : CommonConstants.JDG_SERVICE_PASSWORD_DEFAULT;
+
 
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.addServers(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
 		builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(25);
 		builder.marshaller(new ProtoStreamMarshaller());
+		builder.security().authentication().username(username).password(password).enable();
+
 
 		cacheManager = new RemoteCacheManager(builder.build());
 
