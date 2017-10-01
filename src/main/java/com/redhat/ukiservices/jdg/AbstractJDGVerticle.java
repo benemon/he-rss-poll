@@ -24,6 +24,7 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 	private static final Logger log = LoggerFactory.getLogger(AbstractJDGVerticle.class);
 
 	private static final String JDG_CONNECTION_STRING_FORMAT = "%s:%s";
+	private static final String JDG_SASL_MECHANISM = "DIGEST-MD5";
 
 	protected RemoteCacheManager cacheManager;
 
@@ -45,7 +46,7 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 		builder.addServers(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
 		builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(25);
 		builder.marshaller(new ProtoStreamMarshaller());
-		builder.security().authentication().username(username).password(password).enable();
+		builder.security().authentication().saslMechanism(JDG_SASL_MECHANISM).username(username).password(password).enable();
 
 
 		cacheManager = new RemoteCacheManager(builder.build());
