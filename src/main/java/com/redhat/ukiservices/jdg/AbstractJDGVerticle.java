@@ -46,7 +46,7 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.addServers(String.format(JDG_CONNECTION_STRING_FORMAT, host, port));
-        builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(25);
+        // builder.nearCache().mode(NearCacheMode.INVALIDATED).maxEntries(25);
         builder.marshaller(new ProtoStreamMarshaller());
         builder.security().authentication()
                 .serverName(jdgServerName)
@@ -56,6 +56,11 @@ public abstract class AbstractJDGVerticle extends AbstractVerticle {
 
 
         cacheManager = new RemoteCacheManager(builder.build());
+
+        if (cacheManager == null)
+        {
+            log.info("Cache Manager is null!!!!");
+        }
 
         this.registerProtoBufSchema();
     }
