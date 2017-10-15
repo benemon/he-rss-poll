@@ -1,173 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>io.openshift</groupId>
-		<artifactId>booster-parent</artifactId>
-		<version>6</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.openshift</groupId>
+        <artifactId>booster-parent</artifactId>
+        <version>6</version>
+    </parent>
 
-	<groupId>com.redhat.ukiservices.bh</groupId>
-	<artifactId>he-rss-poll</artifactId>
+    <groupId>com.redhat.ukiservices.bh</groupId>
+    <artifactId>he-rss-poll-parent</artifactId>
 
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-	<name>Red Hat :: Highways England Events Demonstrator</name>
-	<description>Demonstrates the use of Vert.x in a polling model, rather than a stream</description>
+    <name>Red Hat :: Parent :: Highways England Events Demonstrator</name>
+    <description>Demonstrates the use of Vert.x in a polling model, rather than a stream</description>
 
-	<properties>
-		<vertx.version>3.4.2</vertx.version>
-		<vertx-maven-plugin.version>1.0.8</vertx-maven-plugin.version>
-		<log4j2.version>2.6.2</log4j2.version>
-		<infinispan.version>8.4.0.Final-redhat-2</infinispan.version>
+    <properties>
+        <vertx.version>3.4.2</vertx.version>
+        <vertx-maven-plugin.version>1.0.8</vertx-maven-plugin.version>
+        <log4j2.version>2.6.2</log4j2.version>
+        <infinispan.version>8.4.0.Final-redhat-2</infinispan.version>
+        <rome.version>1.7.0</rome.version>
+        <gson.version>2.7</gson.version>
+        <commons-lang.version>3.4</commons-lang.version>
 
-		<vertx.verticle>com.redhat.ukiservices.bootstrap.BootstrapVerticle</vertx.verticle>
-		<vertx.logger-delegate-factory-class-name>io.vertx.core.logging.Log4j2LogDelegateFactory</vertx.logger-delegate-factory-class-name>
+        <vertx.verticle>com.redhat.ukiservices.bootstrap.BootstrapVerticle</vertx.verticle>
+        <vertx.logger-delegate-factory-class-name>io.vertx.core.logging.Log4j2LogDelegateFactory
+        </vertx.logger-delegate-factory-class-name>
 
-	</properties>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.vertx</groupId>
-				<artifactId>vertx-dependencies</artifactId>
-				<version>${vertx.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-dependencies</artifactId>
+                <version>${vertx.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.infinispan</groupId>
-				<artifactId>infinispan-bom</artifactId>
-				<version>${infinispan.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-bom</artifactId>
+                <version>${infinispan.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-	<dependencies>
+        </dependencies>
+    </dependencyManagement>
 
-		<!-- Core -->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-health-check</artifactId>
-		</dependency>
+    <dependencies>
 
-		<!-- RSS -->
-		<dependency>
-			<groupId>com.rometools</groupId>
-			<artifactId>rome</artifactId>
-			<version>1.7.0</version>
-		</dependency>
+        <!-- Core -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-health-check</artifactId>
+        </dependency>
 
-		<!-- infinispan -->
-		<dependency>
-			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-remote</artifactId>
-		</dependency>
+        <!-- RSS -->
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome</artifactId>
+            <version>${rome.version}</version>
+        </dependency>
 
-		<!-- logging -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j2.version}</version>
-		</dependency>
+    </dependencies>
 
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j2.version}</version>
-		</dependency>
+    <modules>
+        <module>jdg</module>
+        <module>management</module>
+        <module>ui</module>
+    </modules>
 
-		<!-- commons -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
-
-
-		<!-- gson -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.7</version>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>vertx-maven-plugin</artifactId>
-				<version>${vertx-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>vmp</id>
-						<goals>
-							<goal>initialize</goal>
-							<goal>package</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<redeploy>true</redeploy>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<profiles>
-		<profile>
-			<id>openshift</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>io.fabric8</groupId>
-						<artifactId>fabric8-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>fmp</id>
-								<goals>
-									<goal>resource</goal>
-									<goal>build</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>openshift-it</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>integration-test</goal>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>fmp</id>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>openshift-it</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

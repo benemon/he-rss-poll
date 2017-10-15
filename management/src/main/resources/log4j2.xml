@@ -1,0 +1,15 @@
+<Configuration>
+    <Appenders>
+        <Console name="vert-console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601} %-5p %c:%L -ARSE- %m%n"/>
+        </Console>
+        <Async name="vertx_async">
+            <AppenderRef ref="vertx-console"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="vertx_async"/>
+        </Root>
+    </Loggers>
+</Configuration>

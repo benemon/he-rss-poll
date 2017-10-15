@@ -192,7 +192,7 @@
                 </authentication>
             </hotrod-connector>
             <hotrod-connector cache-container="clustered" socket-binding="hotrod-external" name="hotrod-external">
-                <topology-state-transfer lazy-retrieval="false" external-host="172.30.98.100" external-port="11333"/>
+                <topology-state-transfer lazy-retrieval="false" external-host="172.30.34.141" external-port="11333"/>
                 <authentication security-realm="ApplicationRealm">
                     <sasl server-name="jdg-server" mechanisms="DIGEST-MD5" qop="auth">
                         <policy>
@@ -258,14 +258,12 @@
                 </distributed-cache-configuration>
                 <security>
                     <authorization>
-                        <role name="cacheUser" permissions="ALL ADMIN"/>
+                        <identity-role-mapper/>
+                        <role name="admin" permissions="ALL"/>
+                        <role name="___schema_manager" permissions="ALL"/>
                     </authorization>
                 </security>
-                <distributed-cache name="default" mode="SYNC">
-                    <security>
-                        <authorization enabled="true" roles="cacheUser"/>
-                    </security>
-                </distributed-cache>
+                <distributed-cache name="default" mode="SYNC"></distributed-cache>
                 <distributed-cache name="memcached" mode="SYNC"></distributed-cache><!-- ##INFINISPAN_CACHE## -->
             </cache-container>
         </subsystem>
@@ -289,7 +287,7 @@
                     <protocol type="AUTH">
                         <property name="auth_class">org.jgroups.auth.MD5Token</property>
                         <property name="token_hash">SHA</property>
-                        <property name="auth_value">3dK4oGmh</property>
+                        <property name="auth_value">sPDWKsU5</property>
                     </protocol>
 
                     <protocol type="pbcast.GMS"/>
@@ -314,7 +312,7 @@
                     <protocol type="AUTH">
                         <property name="auth_class">org.jgroups.auth.MD5Token</property>
                         <property name="token_hash">SHA</property>
-                        <property name="auth_value">3dK4oGmh</property>
+                        <property name="auth_value">sPDWKsU5</property>
                     </protocol>
 
                     <protocol type="pbcast.GMS"/>

@@ -1,19 +1,18 @@
 package com.redhat.ukiservices.bootstrap;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.redhat.ukiservices.common.CommonConstants;
 import com.redhat.ukiservices.jdg.JDGPutVerticle;
 import com.redhat.ukiservices.jdg.JDGSearchVerticle;
 import com.redhat.ukiservices.manage.ManagementVerticle;
 import com.redhat.ukiservices.service.UIServiceVerticle;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BootstrapVerticle extends AbstractVerticle {
 

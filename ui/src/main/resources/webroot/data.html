@@ -1,0 +1,382 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Highways England Road Safety Visualiser</title>
+
+    <!-- styles -->
+    <link rel="icon"
+          type="image/x-icon"
+          href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </link>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
+    </style>
+
+    <!-- script imports -->
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/js/patternfly.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-pf" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+            <img src="/assets/img/header.svg" alt="Red Hat UKI Services"/>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-utility">
+            <li class="dropdown">
+                <a class="nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="true">
+                    <span title="Help" class="fa pficon-help"></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">About</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-primary">
+            <li>
+                <a href="index.html">Info</a>
+            </li>
+            <li>
+                <a href="configuration.html">Configuration</a>
+            </li>
+            <li class="active">
+                <a href="data.html">Live Data</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Live Incidents Counts
+        </h1>
+    </div>
+    <div>
+        <div class="container-fluid container-cards-pf">
+            <h2>
+                Regional
+            </h2>
+            <div class="cards-pf">
+                <div class="row row-cards-pf">
+                    <div class="col-xs-6 col-sm-4 col-md-4">
+
+                        <!-- South East -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="south-east-count">
+                                0
+                            </span>
+                                South East
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="south-east-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- South West -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="south-west-count">
+                                0
+                            </span>
+                                South West
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="south-west-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-4">
+
+                        <!-- North East -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="north-east-count">
+                                0
+                            </span>
+                                North East
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="north-east-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- North West -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="north-west-count">
+                            </span>
+                                North West
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="north-west-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-4">
+                        <!-- East Midlands -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="east-midlands-count">
+                                0
+                            </span>
+                                East Midlands
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="east-midlands-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- West Midlands -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="west-midlands-count">
+                                0
+                            </span>
+                                West Midlands
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="west-midlands-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-4">
+
+                        <!-- Eastern -->
+                        <div class="card-pf card-pf-accented card-pf-aggregate-status-mini">
+                            <h2 class="card-pf-title">
+                            <span class="card-pf-aggregate-status-count" id="eastern-count">
+                                0
+                            </span>
+                                Eastern
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                <span class="card-pf-aggregate-status-notification">
+                                    <span id="eastern-icon">
+                                    </span>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <h2>
+            Hotspots
+        </h2>
+        <div class="cards-pf">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-4">
+                    <div id="pie-chart" class="example-pie-chart-right-legend">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        <!-- vars in global scope -->
+        var c3ChartDefaults = $().c3ChartDefaults();
+        var pieChartRightLegend;
+
+        function refreshCards() {
+            setInterval(function() {
+                populateCards();
+                pieChart();
+            }, 120000);
+        }
+
+        function resetStatus() {
+            <!-- reset counts to cater for zero-length results-->
+
+             var countIds = document.querySelectorAll("[class$=count]");
+             countIds.forEach(function(entry) {
+                entry.textContent = 0;
+             });
+
+             var iconIds = document.querySelectorAll("[id$=-icon]");
+             iconIds.forEach(function(entry) {
+                entry.className = 'pficon pficon-ok';
+             });
+        }
+
+        function getDetailForId(id)
+        {
+            $.ajax({
+                url: '/api/get/detail/road/' +id,
+                dataType: 'json',
+            }).done(function(json) {
+                console.log(json);
+            });
+        }
+
+        function setCardActivityState(){
+            $.ajax({
+                url: 'api/config/endpoint/all',
+                dataType: 'json',
+            }).done(function(json) {
+
+                json.forEach(function(entry) {
+                    var isActive = entry.active
+                    var elementId = entry.label.replace(/\s+/g, '-').toLowerCase();
+                    if (!isActive)
+                    {
+                        document.getElementById(elementId + '-count').textContent = 'Inactive';
+                        document.getElementById(elementId + '-icon').className = 'pficon pficon-locked';
+                    }
+                });
+            });
+        }
+
+
+        function populateCards() {
+            $.ajax({
+                url: '/api/get/count/region',
+                dataType: 'json',
+            }).done(function(json) {
+
+                 <!-- Reset to zero -->
+                 resetStatus();
+
+                 Object.keys(json).map((key) =>
+                 {
+                    var response = json[key];
+                    var elementId = response.region.replace(/\s+/g, '-').toLowerCase();
+                    var count = response.count;
+                    document.getElementById(elementId + '-count').textContent = count;
+
+                    if (count == 0)
+                    {
+                        document.getElementById(elementId + '-icon').className = 'pficon pficon-ok';
+                    }
+                    if(count > 0 && count <=10)
+                    {
+                        document.getElementById(elementId + '-icon').className = 'pficon pficon-warning-triangle-o';
+                    }
+                    if (count > 10)
+                    {
+                        document.getElementById(elementId + '-icon').className = 'pficon pficon-error-circle-o';
+                    }
+                 });
+
+
+                 <!-- I don't care if we got a response, if the Verticle isn't deployed, set to zero. -->
+                 setCardActivityState()
+
+
+            });
+        }
+
+
+        function pieChart(){
+           $.ajax({
+                url: '/api/get/count/road',
+                dataType: 'json',
+            }).done(function(json) {
+
+              var data = [];
+
+             json.forEach(function(entry) {
+                var column = [];
+                column.push(entry.road);
+                column.push(entry.count);
+                data.push(column);
+              });
+
+              var pieData = {
+                type : 'pie',
+                colors: c3ChartDefaults.getDefaultColors(),
+                columns: data,
+                onclick: function (d, e) { getDetailForId(d.id); },
+                empty: { label: { text: "No Data Found" }   },
+              };
+
+              // Right Legend
+              var pieChartRightConfig = c3ChartDefaults.getDefaultPieConfig();
+              pieChartRightConfig.bindto = '#pie-chart';
+              pieChartRightConfig.data = pieData;
+              pieChartRightConfig.legend = {
+                show: true,
+                position: 'right'
+              };
+              pieChartRightConfig.size = {
+                width: 430,
+                height: 370
+              };
+              pieChartRightLegend = c3.generate(pieChartRightConfig);
+
+           });
+
+        }
+
+    $(document).ready(function() {
+        populateCards();
+        refreshCards();
+        pieChart();
+    });
+
+
+
+</script>
+</body>
+
+</html>
