@@ -45,18 +45,27 @@ public class JDGPutVerticle extends AbstractJDGVerticle {
         vertx.executeBlocking(future -> {
 
             JsonArray entries = message.body();
-            log.info(entries.encodePrettily());
 
-            for (Object obj : entries.getList()) {
-                JsonObject jobj = (JsonObject) obj;
+            // Fix for clustered v non-clustered behaviour - https://github.com/eclipse/vert.x/issues/1349
+            for (int i = 0; i < entries.size(); i++) {
+
+                JsonObject jobj = entries.getJsonObject(i);
+
                 HEElementModel model = gson.fromJson(jobj.toString(), HEElementModel.class);
                 this.getCache(cacheName).put(model.getGuid(), model);
             }
 
             future.complete();
+
         }, res -> {
-            long stop = System.currentTimeMillis();
-            log.info(String.format(PUT_MSG_FORMAT, stop - start));
+
+            if (res.succeeded()) {
+                long stop = System.currentTimeMillis();
+                log.info(String.format(PUT_MSG_FORMAT, stop - start));
+            } else {
+                log.error("Something went horribly wrong: " + res.cause());
+            }
+
         });
     }
 }
