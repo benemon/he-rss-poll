@@ -116,12 +116,14 @@ public class UIServiceVerticle extends AbstractVerticle {
 
                         asyncMap.put("cluster.endpoints.map", endpoints, resPut -> {
                             if (resPut.succeeded()) {
+                                vertx.eventBus().send((CommonConstants.VERTX_EVENT_BUS_MGMT_ACTION), model.toJson());
                                 log.info("Configuration updated");
+                            } else {
+                                log.warn("Could not update configuration");
                             }
+
                         });
 
-
-                        vertx.eventBus().send((CommonConstants.VERTX_EVENT_BUS_MGMT_ACTION), model.toJson());
                     } else {
                         log.info("Failed to set Endpoint Status");
                     }
